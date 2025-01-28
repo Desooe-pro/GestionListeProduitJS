@@ -23,6 +23,8 @@ const Trie = (Tags) => {
 
 // Récupération et création des informations
 const table = document.querySelector(".grid");
+const inputTexte = document.querySelector("input[type='text']");
+const form = document.querySelector("form");
 const Checkboxs = [
     {nom : "Thé",checkbox : document.getElementById("Thé"), checked : false},
     {nom : "Café",checkbox : document.getElementById("Café"), checked : false},
@@ -75,6 +77,7 @@ const Creation = () => {
     }
 }
 
+// Fonction
 for (let i = 0; i < Checkboxs.length; i++) {
     Checkboxs[i].checkbox.addEventListener("click", () => {
         Checkboxs[i].checked = !Checkboxs[i].checked;
@@ -94,5 +97,30 @@ for (let i = 0; i < Checkboxs.length; i++) {
         Trie(tags);
     })
 }
+
+// Fonction de recherche
+inputTexte.addEventListener("input", (e) => {
+    table.innerHTML = `<div class="ligne">
+                    <div class="nom interne">Nom</div>
+                    <div class="prix interne">Prix</div>
+                </div>`
+    for (let i = 0; i < produits.length; i++) {
+        if (produits[i].nom.includes(e.target.value) || produits[i].nom.toLowerCase().includes(e.target.value)){
+            let idProd = produits[i].id.toString()
+            let nomProd = produits[i].nom
+            let prixProd = produits[i].prix
+            let tagProd = produits[i].tag
+            table.innerHTML += `<div class="ligne ${tagProd}" id=${idProd}>
+                    <div class="nom interne">${nomProd}</div>
+                    <div class="prix interne">${prixProd}€</div>
+                </div>`
+        }
+    }
+})
+
+form.addEventListener("submit", (e) => {
+    // Supprime la fonctionnalité native de l'élément ciblé
+    e.preventDefault();
+})
 
 Creation()
