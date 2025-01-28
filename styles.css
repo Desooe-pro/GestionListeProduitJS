@@ -1,13 +1,11 @@
 #Main-Header {
-    height: 200px;
-    border: 2px solid black;
+    text-align: center;
     margin: 5px auto;
 }
 
 .div-main {
     display: flex;
     flex-direction: row;
-    align-items: center;
     border: 1px solid black;
 }
 
