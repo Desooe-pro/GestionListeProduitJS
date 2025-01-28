@@ -6,23 +6,53 @@ const Trie = (Tags) => {
                 </div>`
     if (Tags.length === 0){
         Creation()
-    }
-    for (let i = 0; i < produits.length; i++) {
-        if (Tags.includes(produits[i].tag)){
-            let idProd = produits[i].id.toString()
-            let nomProd = produits[i].nom
-            let prixProd = produits[i].prix
-            let tagProd = produits[i].tag
-            table.innerHTML += `<div class="ligne ${tagProd}" id=${idProd}>
+    } else {
+        for (let i = 0; i < produits.length; i++) {
+            if (Tags.includes(produits[i].tag)){
+                let idProd = produits[i].id
+                let nomProd = produits[i].nom
+                let prixProd = produits[i].prix
+                let tagProd = produits[i].tag
+                let supProd = "sup" + produits[i].id
+                table.innerHTML += `<div class="ligne ${tagProd}" id=${idProd}>
                     <div class="nom interne">${nomProd}</div>
                     <div class="prix interne">${prixProd}€</div>
+                    <div class="sup"><button id=${supProd}>Supprimer</button></div>
                 </div>`
+            }
         }
+        document.querySelectorAll('.sup button').forEach(button => {
+            button.addEventListener('click', () => Supprimer(button.id));
+        });
+    }
+}
+
+const Supprimer = (id) => {
+    // Extraire l'ID du produit (enlever "sup" du début)
+    const produitId = parseInt(id.replace("sup", ""));
+
+    // Filtrer le produit du tableau
+    produits = produits.filter(produit => produit.id !== produitId);
+
+    // Récupérer les tags actifs actuels
+    let tagsActifs = [];
+    Tags.forEach(tag => {
+        if (tag.state) {
+            tagsActifs.push(tag.nom);
+        }
+    });
+
+    // Mettre à jour l'affichage en fonction des filtres actifs
+    if (tagsActifs.length > 0) {
+        Trie(tagsActifs);
+    } else {
+        Creation();
     }
 }
 
 // Récupération et création des informations
 const table = document.querySelector(".grid");
+const testDiv = document.getElementById("test")
 const inputTexte = document.querySelector("input[type='text']");
 const form = document.querySelector("form");
 const Checkboxs = [
@@ -30,12 +60,14 @@ const Checkboxs = [
     {nom : "Café",checkbox : document.getElementById("Café"), checked : false},
     {nom : "Infusion",checkbox : document.getElementById("Infusion"), checked : false}
 ];
-const produits = [
+const produitsSave = [
     { id: 1, nom: "Thé vert", prix: 12.99 },
     { id: 2, nom: "Café Arabica", prix: 8.99 },
     { id: 3, nom: "Infusion Camomille", prix: 5.49 },
     { id: 4, nom: "Café Robusta", prix: 9.99 },
 ];
+
+let produits = produitsSave
 
 const collator = new Intl.Collator("fr", {sensitivity : "base"});
 
@@ -70,12 +102,19 @@ const Creation = () => {
         let nomProd = produits[i].nom
         let prixProd = produits[i].prix
         let tagProd = produits[i].tag
+        let supProd = "sup" + produits[i].id
         table.innerHTML += `<div class="ligne ${tagProd}" id=${idProd}>
                     <div class="nom interne">${nomProd}</div>
                     <div class="prix interne">${prixProd}€</div>
+                    <div class="sup"><button id=${supProd}>Supprimer</button></div>
                 </div>`
     }
+    document.querySelectorAll('.sup button').forEach(button => {
+        button.addEventListener('click', () => Supprimer(button.id));
+    });
 }
+
+Creation()
 
 // Fonction
 for (let i = 0; i < Checkboxs.length; i++) {
@@ -110,17 +149,20 @@ inputTexte.addEventListener("input", (e) => {
             let nomProd = produits[i].nom
             let prixProd = produits[i].prix
             let tagProd = produits[i].tag
+            let supProd = "sup" + produits[i].id
             table.innerHTML += `<div class="ligne ${tagProd}" id=${idProd}>
                     <div class="nom interne">${nomProd}</div>
                     <div class="prix interne">${prixProd}€</div>
+                    <div class="sup"><button id=${supProd}>Supprimer</button></div>
                 </div>`
         }
     }
+    document.querySelectorAll('.sup button').forEach(button => {
+        button.addEventListener('click', () => Supprimer(button.id));
+    });
 })
 
 form.addEventListener("submit", (e) => {
     // Supprime la fonctionnalité native de l'élément ciblé
     e.preventDefault();
 })
-
-Creation()
