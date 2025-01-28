@@ -24,10 +24,10 @@ const Trie = (Tags) => {
                 </div>`
             }
         }
+        affichePrixTot(prixTot)
         document.querySelectorAll('.sup button').forEach(button => {
             button.addEventListener('click', () => Supprimer(button.id));
         });
-        affichePrixTot(prixTot)
     }
 }
 
@@ -144,10 +144,10 @@ const Creation = () => {
                     <div class="sup"><button id=${supProd}>Supprimer</button></div>
                 </div>`
     }
+    affichePrixTot(prixTot)
     document.querySelectorAll('.sup button').forEach(button => {
         button.addEventListener('click', () => Supprimer(button.id));
     });
-    affichePrixTot(prixTot)
 }
 
 Creation()
@@ -196,10 +196,10 @@ inputTexte.addEventListener("input", (e) => {
                 </div>`
         }
     }
+    affichePrixTot(prixTot)
     document.querySelectorAll('.sup button').forEach(button => {
         button.addEventListener('click', () => Supprimer(button.id));
     });
-    affichePrixTot(prixTot)
 })
 
 form.addEventListener("submit", (e) => {
