@@ -98,7 +98,7 @@ const Creation = (produits) => {
     let prixTot = 0;
     const open = produits.map(produit => `<div class="ligne ${produit.tag}" id=${produit.id}>`)
     const nom = produits.map(produit => `<div class="nom interne">${produit.nom}</div>`)
-    const prix = produits.map(produit => `<div class="prix interne">${produit.prix}€</div>`)
+    const prix = produits.map(produit => `<div class="prix interne">${produit.prix}</div>`)
     const sup = produits.map(produit => `<div class="sup"><button id=sup${produit.id}>Supprimer</button></div>`)
     table.innerHTML = `<div class="ligne">
                     <div class="nom interne">Nom</div>
