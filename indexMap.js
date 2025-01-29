@@ -25,11 +25,7 @@ const Supprimer = (id) => {
     });
 
     // Mettre à jour l'affichage en fonction des filtres actifs
-    if (tagsActifs.length > 0) {
-        Trie(tagsActifs,produits);
-    } else {
-        Creation(produits);
-    }
+    Trie(tagsActifs,produits)
 }
 
 const affichePrixTot = (prix) => {
@@ -46,9 +42,9 @@ const reset = document.getElementById("Reset");
 const inputTexte = document.querySelector("input[type='text']");
 const form = document.querySelector("form");
 const Checkboxs = [
-    {nom : "Thé",checkbox : document.getElementById("Thé"), checked : false},
-    {nom : "Café",checkbox : document.getElementById("Café"), checked : false},
-    {nom : "Infusion",checkbox : document.getElementById("Infusion"), checked : false}
+    {nom : "Thé",checkbox : document.getElementById("Thé")},
+    {nom : "Café",checkbox : document.getElementById("Café")},
+    {nom : "Infusion",checkbox : document.getElementById("Infusion")}
 ];
 const produitsSave = [
     // Thés
@@ -82,12 +78,6 @@ let produits = produitsSave;
 const collator = new Intl.Collator("fr", {sensitivity : "base"});
 
 produits.sort((a, b) => collator.compare(a.nom, b.nom));
-
-let Tags = [
-    {nom : "Thé", state : false},
-    {nom : "Café", state : false},
-    {nom : "Infusion", state : false}
-];
 let texteTrie = "";
 
 // Ajout de Tags
@@ -127,18 +117,10 @@ Creation(produits);
 // Fonction Checkbox
 for (let i = 0; i < Checkboxs.length; i++) {
     Checkboxs[i].checkbox.addEventListener("click", () => {
-        Checkboxs[i].checked = !Checkboxs[i].checked;
-
-        for (let loop = 0; loop < Tags.length; loop++) {
-            if (Checkboxs[i].nom === Tags[loop].nom) {
-                Tags[loop].state = Checkboxs[i].checked
-            }
-        }
-
         let tags = [];
-        for (let loop = 0; loop < Tags.length; loop++) {
-            if (Tags[loop].state){
-                tags.push(Tags[loop].nom)
+        for (let loop = 0; loop < Checkboxs.length; loop++) {
+            if (Checkboxs[loop].checkbox.checked){
+                tags.push(Checkboxs[loop].nom)
             }
         }
         Trie(tags,produits);
@@ -166,5 +148,8 @@ reset.addEventListener("click", () => {
     produits = produitsSave
     inputTexte.value = ""
     texteTrie = ""
+    for (let i= 0; i < Checkboxs.length; i++) {
+        Checkboxs[i].checkbox.checked = false
+    }
     Creation(produits)
 })
