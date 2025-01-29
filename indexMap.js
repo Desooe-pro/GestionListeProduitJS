@@ -165,5 +165,6 @@ form.addEventListener("submit", (e) => {
 reset.addEventListener("click", () => {
     produits = produitsSave
     inputTexte.value = ""
+    texteTrie = ""
     Creation(produits)
 })
