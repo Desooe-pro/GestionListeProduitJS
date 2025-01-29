@@ -1,42 +1,20 @@
 // Fonction de Trie par catégorie
-const Trie = (Tags) => {
-    let prixTot = 0
-    table.innerHTML = `<div class="ligne">
-                    <div class="nom interne">Nom</div>
-                    <div class="prix interne">Prix</div>
-                    <div class="sup"></div>
-                </div>`
-    if (Tags.length === 0){
-        Creation()
-    } else {
-        for (let i = 0; i < produits.length; i++) {
-            if (Tags.includes(produits[i].tag)){
-                let idProd = produits[i].id
-                let nomProd = produits[i].nom
-                let prixProd = produits[i].prix
-                prixTot += produits[i].prix
-                let tagProd = produits[i].tag
-                let supProd = "sup" + produits[i].id
-                table.innerHTML += `<div class="ligne ${tagProd}" id=${idProd}>
-                    <div class="nom interne">${nomProd}</div>
-                    <div class="prix interne">${prixProd}€</div>
-                    <div class="sup"><button id=${supProd}>Supprimer</button></div>
-                </div>`
-            }
-        }
-        affichePrixTot(prixTot)
-        document.querySelectorAll('.sup button').forEach(button => {
-            button.addEventListener('click', () => Supprimer(button.id));
-        });
+const Trie = (Tags,produits) => {
+    let produitsTemp = []
+    produits.forEach(produit => produitsTemp.push(produit))
+    if (Tags.length > 0){
+        produitsTemp = produitsTemp.filter(produit => Tags.includes(produit.tag))
     }
+    if (texteTrie !== ""){
+        produitsTemp = produitsTemp.filter(produit => produit.nom.includes(texteTrie) || produit.nom.toLowerCase().includes(texteTrie))
+    }
+    Creation(produitsTemp)
 }
 
 const Supprimer = (id) => {
     // Extraire l'ID du produit (enlever "sup" du début)
     const produitId = parseInt(id.replace("sup", ""));
-
-    // Filtrer le produit du tableau
-    produits = produits.filter(produit => produit.id !== produitId);
+    produits = produits.filter(produit => produit.id !== produitId)
 
     // Récupérer les tags actifs actuels
     let tagsActifs = [];
@@ -48,9 +26,9 @@ const Supprimer = (id) => {
 
     // Mettre à jour l'affichage en fonction des filtres actifs
     if (tagsActifs.length > 0) {
-        Trie(tagsActifs);
+        Trie(tagsActifs,produits);
     } else {
-        Creation();
+        Creation(produits);
     }
 }
 
@@ -100,7 +78,7 @@ const produitsSave = [
     { id: 20, nom: "Infusion Rooibos", prix: 8.99 },
     { id: 21, nom: "Infusion Gingembre Citron", prix: 7.99 }
 ];
-let produits = produitsSave
+let produits = produitsSave;
 const collator = new Intl.Collator("fr", {sensitivity : "base"});
 
 produits.sort((a, b) => collator.compare(a.nom, b.nom));
@@ -109,7 +87,8 @@ let Tags = [
     {nom : "Thé", state : false},
     {nom : "Café", state : false},
     {nom : "Infusion", state : false}
-]
+];
+let texteTrie = "";
 
 // Ajout de Tags
 for (let i = 0; i < produits.length; i++) {
@@ -122,27 +101,20 @@ for (let i = 0; i < produits.length; i++) {
     }
 }
 
-
-// Insertion des produits
-const Creation = () => {
-    let prixTot = 0
+const Creation = (produits) => {
+    let prixTot = 0;
+    const open = produits.map(produit => `<div class="ligne ${produit.tag}" id=${produit.id}>`)
+    const nom = produits.map(produit => `<div class="nom interne">${produit.nom}</div>`)
+    const prix = produits.map(produit => `<div class="prix interne">${produit.prix}</div>`)
+    const sup = produits.map(produit => `<div class="sup"><button id=sup${produit.id}>Supprimer</button></div>`)
     table.innerHTML = `<div class="ligne">
                     <div class="nom interne">Nom</div>
                     <div class="prix interne">Prix</div>
                     <div class="sup"></div>
                 </div>`
-    for (let i = 0; i < produits.length; i++) {
-        let idProd = produits[i].id
-        let nomProd = produits[i].nom
-        let prixProd = produits[i].prix
+    for (let i = 0; i < open.length; i++) {
         prixTot += produits[i].prix
-        let tagProd = produits[i].tag
-        let supProd = "sup" + produits[i].id
-        table.innerHTML += `<div class="ligne ${tagProd}" id=${idProd}>
-                    <div class="nom interne">${nomProd}</div>
-                    <div class="prix interne">${prixProd}€</div>
-                    <div class="sup"><button id=${supProd}>Supprimer</button></div>
-                </div>`
+        table.innerHTML += open[i] + nom[i] + prix[i] + sup[i] + `</div>`
     }
     affichePrixTot(prixTot)
     document.querySelectorAll('.sup button').forEach(button => {
@@ -150,7 +122,7 @@ const Creation = () => {
     });
 }
 
-Creation()
+Creation(produits);
 
 // Fonction Checkbox
 for (let i = 0; i < Checkboxs.length; i++) {
@@ -169,37 +141,20 @@ for (let i = 0; i < Checkboxs.length; i++) {
                 tags.push(Tags[loop].nom)
             }
         }
-        Trie(tags);
+        Trie(tags,produits);
     })
 }
 
 // Fonction de recherche
 inputTexte.addEventListener("input", (e) => {
-    let prixTot = 0
-    table.innerHTML = `<div class="ligne">
-                    <div class="nom interne">Nom</div>
-                    <div class="prix interne">Prix</div>
-                    <div class="sup"></div>
-                </div>`
-    for (let i = 0; i < produits.length; i++) {
-        if (produits[i].nom.includes(e.target.value) || produits[i].nom.toLowerCase().includes(e.target.value)){
-            let idProd = produits[i].id.toString()
-            let nomProd = produits[i].nom
-            let prixProd = produits[i].prix
-            prixTot += produits[i].prix
-            let tagProd = produits[i].tag
-            let supProd = "sup" + produits[i].id
-            table.innerHTML += `<div class="ligne ${tagProd}" id=${idProd}>
-                    <div class="nom interne">${nomProd}</div>
-                    <div class="prix interne">${prixProd}€</div>
-                    <div class="sup"><button id=${supProd}>Supprimer</button></div>
-                </div>`
+    let tagsActifs = [];
+    Tags.forEach(tag => {
+        if (tag.state) {
+            tagsActifs.push(tag.nom);
         }
-    }
-    affichePrixTot(prixTot)
-    document.querySelectorAll('.sup button').forEach(button => {
-        button.addEventListener('click', () => Supprimer(button.id));
     });
+    texteTrie = e.target.value
+    Trie(tagsActifs,produits)
 })
 
 form.addEventListener("submit", (e) => {
@@ -209,6 +164,5 @@ form.addEventListener("submit", (e) => {
 
 reset.addEventListener("click", () => {
     produits = produitsSave
-    Creation()
+    Creation(produits)
 })
-
