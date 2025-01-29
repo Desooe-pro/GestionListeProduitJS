@@ -13,35 +13,35 @@
     </header>
     <main id="Main-Main">
         <div>
-            <div>
+            <div class="recherche-reset">
                 <form action="#" method="post" class="box">
                     <label>
-                        <input type="text" placeholder="Tapez votre texte">
+                        <input id="search-bar" type="text" placeholder="Tapez votre texte">
                     </label>
-                    <button id="Reset">Reset</button>
+                    <button class="button" id="Reset">Reset</button>
                 </form>
-
             </div>
-            <div id="test"></div>
+
             <div class="div-main">
                 <div class="grid"></div>
-                <div>
+                <div id="cate">
                     <fieldset class="Select">
                         <legend>Select the categories you want to select : </legend>
 
                         <div>
-                            <input type="checkbox" id="Thé" name="Thé" />
+                            <input type="checkbox" id="Thé" name="Thé" class="check" />
                             <label for="Thé">Thé</label>
                         </div>
                         <div>
-                            <input type="checkbox" id="Infusion" name="Infusion" />
+                            <input type="checkbox" id="Infusion" name="Infusion" class="check" />
                             <label for="Infusion">Infusion</label>
                         </div>
                         <div>
-                            <input type="checkbox" id="Café" name="Café" />
+                            <input type="checkbox" id="Café" name="Café" class="check" />
                             <label for="Café">Café</label>
                         </div>
                     </fieldset>
+                    <div id="prix-tot"></div>
                 </div>
             </div>
         </div>

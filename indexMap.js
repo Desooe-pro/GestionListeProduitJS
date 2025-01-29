@@ -32,10 +32,10 @@ const Supprimer = (id) => {
 }
 
 const affichePrixTot = (prix) => {
-    table.innerHTML += `<div class="ligne">
+    prixTotDiv.innerHTML = `<div class="ligne" style="margin-top: 10px">
                     <div class="nom interne">Prix de tous les articles séléctionnés</div>
-                    <div class="sup"></div>
                     <div class="prix interne">${prix.toFixed(2)} €</div>
+                    <div class="sup"></div>
                 </div>`
 }
 
@@ -44,6 +44,7 @@ const table = document.querySelector(".grid");
 const reset = document.getElementById("Reset");
 const inputTexte = document.querySelector("input[type='text']");
 const form = document.querySelector("form");
+const prixTotDiv = document.getElementById("prix-tot")
 const Checkboxs = [
     {nom : "Thé",checkbox : document.getElementById("Thé")},
     {nom : "Café",checkbox : document.getElementById("Café")},
@@ -99,10 +100,10 @@ const Creation = (produits) => {
     const open = produits.map(produit => `<div class="ligne ${produit.tag}" id=${produit.id}>`)
     const nom = produits.map(produit => `<div class="nom interne">${produit.nom}</div>`)
     const prix = produits.map(produit => `<div class="prix interne">${produit.prix}</div>`)
-    const sup = produits.map(produit => `<div class="sup"><button id=sup${produit.id}>Supprimer</button></div>`)
+    const sup = produits.map(produit => `<div class="sup"><button class="button" id=sup${produit.id}>Supprimer</button></div>`)
     table.innerHTML = `<div class="ligne">
-                    <div class="nom interne">Nom</div>
-                    <div class="prix interne">Prix</div>
+                    <div class="nom">Nom</div>
+                    <div class="prix">Prix</div>
                     <div class="sup"></div>
                 </div>`
     for (let i = 0; i < open.length; i++) {

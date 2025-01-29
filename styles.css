@@ -1,11 +1,79 @@
+body {
+    background-color: #303030;
+    color: #e0e0e0;
+}
+
 #Main-Header {
     text-align: center;
     margin: 5px auto;
 }
 
+#search-bar {
+    width: 60%;
+    height: 30px;
+    border-radius: 15px;
+    border: 2px solid black;
+    padding-left: 10px;
+    color: #e0e0e0;
+    font-size: 14px;
+    background-color: #404040;
+}
+
+#search-bar::placeholder {
+    font-size: 14px;
+    color: #e0e0e0;
+}
+
+#Reset {
+    width: 8%;
+    height: 30px;
+    border-radius: 10px;
+    border: 1px solid black;
+    background: linear-gradient(#b0b0b0, #404040) no-repeat;
+}
+
+#cate {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+
+#prix-tot > .ligne {
+    display: flex;
+    align-items: end;
+}
+
+
+.button {
+    border-radius: 10px;
+    background: linear-gradient(#b0b0b0, #606060) no-repeat;
+}
+
+.button:hover, #Reset:hover {
+    background: linear-gradient(#606060, #b0b0b0) no-repeat;
+}
+
+.div-head {
+    margin: 0;
+    padding: 0;
+}
+
 .div-main {
     display: flex;
     flex-direction: row;
+}
+
+.recherche-reset {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    align-content: center;
+    padding-bottom: 25px;
+}
+
+.box {
+    text-align: center;
+    width: 100%;
 }
 
 .grid {
@@ -23,13 +91,26 @@
     margin: 0 1px;
 }
 
-.interne {
+.nom, .prix {
     display: flex;
     align-items: center;
     border: 1px solid black;
     padding: 2px;
+    background: #404040;
+}
+
+.interne {
+    background: #606060;
+
 }
 
 .sup {
     margin: 0 auto;
+    background: none;
+}
+
+.check {
+    width: 15px;
+    height: 15px;
+    accent-color: gray;
 }
