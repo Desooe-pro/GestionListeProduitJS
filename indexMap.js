@@ -19,7 +19,7 @@ const Supprimer = (id) => {
     // Récupérer les tags actifs actuels
     let tagsActifs = [];
     Checkboxs.forEach(tag => {
-        if (tag.state) {
+        if (tag.checkbox.checked) {
             tagsActifs.push(tag.nom);
         }
     });
@@ -131,7 +131,7 @@ for (let i = 0; i < Checkboxs.length; i++) {
 inputTexte.addEventListener("input", (e) => {
     let tagsActifs = [];
     Checkboxs.forEach(tag => {
-        if (tag.state) {
+        if (tag.checkbox.checked) {
             tagsActifs.push(tag.nom);
         }
     });
