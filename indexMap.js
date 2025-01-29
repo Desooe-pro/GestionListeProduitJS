@@ -40,7 +40,7 @@ const affichePrixTot = (prix) => {
 }
 
 // Récupération et création des informations
-const table = document.querySelector(".grid");
+const table = document.querySelector(".grid > div");
 const reset = document.getElementById("Reset");
 const inputTexte = document.querySelector("input[type='text']");
 const form = document.querySelector("form");
