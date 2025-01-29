@@ -6,7 +6,10 @@ const Trie = (Tags,produits) => {
         produitsTemp = produitsTemp.filter(produit => Tags.includes(produit.tag))
     }
     if (texteTrie !== ""){
-        produitsTemp = produitsTemp.filter(produit => produit.nom.includes(texteTrie) || produit.nom.toLowerCase().includes(texteTrie))
+        produitsTemp = produitsTemp.filter(produit => produit.nom.includes(texteTrie) ||
+            produit.nom.toLowerCase().includes(texteTrie) ||
+            produit.nom.normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(texteTrie) ||
+            produit.nom.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().includes(texteTrie))
     }
     Creation(produitsTemp)
 }
@@ -32,7 +35,7 @@ const affichePrixTot = (prix) => {
     table.innerHTML += `<div class="ligne">
                     <div class="nom interne">Prix de tous les articles séléctionnés</div>
                     <div class="sup"></div>
-                    <div class="prix interne">${prix.toFixed(2)}</div>
+                    <div class="prix interne">${prix.toFixed(2)} €</div>
                 </div>`
 }
 
