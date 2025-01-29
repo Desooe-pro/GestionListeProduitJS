@@ -18,7 +18,7 @@ const Supprimer = (id) => {
 
     // Récupérer les tags actifs actuels
     let tagsActifs = [];
-    Tags.forEach(tag => {
+    Checkboxs.forEach(tag => {
         if (tag.state) {
             tagsActifs.push(tag.nom);
         }
@@ -130,7 +130,7 @@ for (let i = 0; i < Checkboxs.length; i++) {
 // Fonction de recherche
 inputTexte.addEventListener("input", (e) => {
     let tagsActifs = [];
-    Tags.forEach(tag => {
+    Checkboxs.forEach(tag => {
         if (tag.state) {
             tagsActifs.push(tag.nom);
         }
