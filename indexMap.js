@@ -1,22 +1,21 @@
 const Creation = (produits) => { //Fonction de création du tableau, appel affichePrixTot()
     let prixTot = 0;
-    const open = produits.map(produit => `<div class="ligne ${produit.tag}" id=${produit.id}>`)
-    const nom = produits.map(produit => `<div class="nom interne">${produit.nom}</div>`)
-    const prix = produits.map(produit => `<div class="prix interne">${produit.prix}</div>`)
-    const sup = produits.map(produit => `<div class="sup"><button class="button" id=sup${produit.id}>Supprimer</button></div>`)
+    const mapGrid = produits.map(produit =>
+        `<div class="ligne ${produit.tag}" id=${produit.id}>
+            <div class="nom interne">${produit.nom}</div>
+            <div class="prix interne">${produit.prix}</div>
+            <div class="sup"><button class="button" id=sup${produit.id} onclick=Supprimer(id)>Supprimer</button>
+        </div>`)
     table.innerHTML = `<div class="ligne">
                     <div class="nom">Nom</div>
                     <div class="prix">Prix</div>
                     <div class="sup"></div>
                 </div>`
-    for (let i = 0; i < open.length; i++) {
+    for (let i = 0; i < mapGrid.length; i++) {
         prixTot += produits[i].prix
-        table.innerHTML += open[i] + nom[i] + prix[i] + sup[i] + `</div>`
+        table.innerHTML += mapGrid[i]
     }
     affichePrixTot(prixTot)
-    document.querySelectorAll('.sup button').forEach(button => {
-        button.addEventListener('click', () => Supprimer(button.id));
-    });
 }
 
 const Trie = (Tags,produits) => { // Fonction de Trie par catégorie, appel Creation()
