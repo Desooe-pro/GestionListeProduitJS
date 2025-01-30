@@ -1,5 +1,25 @@
-// Fonction de Trie par catégorie
-const Trie = (Tags,produits) => {
+const Creation = (produits) => { //Fonction de création du tableau, appel affichePrixTot()
+    let prixTot = 0;
+    const open = produits.map(produit => `<div class="ligne ${produit.tag}" id=${produit.id}>`)
+    const nom = produits.map(produit => `<div class="nom interne">${produit.nom}</div>`)
+    const prix = produits.map(produit => `<div class="prix interne">${produit.prix}</div>`)
+    const sup = produits.map(produit => `<div class="sup"><button class="button" id=sup${produit.id}>Supprimer</button></div>`)
+    table.innerHTML = `<div class="ligne">
+                    <div class="nom">Nom</div>
+                    <div class="prix">Prix</div>
+                    <div class="sup"></div>
+                </div>`
+    for (let i = 0; i < open.length; i++) {
+        prixTot += produits[i].prix
+        table.innerHTML += open[i] + nom[i] + prix[i] + sup[i] + `</div>`
+    }
+    affichePrixTot(prixTot)
+    document.querySelectorAll('.sup button').forEach(button => {
+        button.addEventListener('click', () => Supprimer(button.id));
+    });
+}
+
+const Trie = (Tags,produits) => { // Fonction de Trie par catégorie, appel Creation()
     let produitsTemp = []
     produits.forEach(produit => produitsTemp.push(produit))
     if (Tags.length > 0){
@@ -14,24 +34,19 @@ const Trie = (Tags,produits) => {
     Creation(produitsTemp)
 }
 
-const Supprimer = (id) => {
-    // Extraire l'ID du produit (enlever "sup" du début)
+const Supprimer = (id) => { // Fonction de suppression des items de la liste, appel Trie()
     const produitId = parseInt(id.replace("sup", ""));
     produits = produits.filter(produit => produit.id !== produitId)
-
-    // Récupérer les tags actifs actuels
     let tagsActifs = [];
     Checkboxs.forEach(tag => {
         if (tag.checkbox.checked) {
             tagsActifs.push(tag.nom);
         }
     });
-
-    // Mettre à jour l'affichage en fonction des filtres actifs
     Trie(tagsActifs,produits)
 }
 
-const affichePrixTot = (prix) => {
+const affichePrixTot = (prix) => { // Fonction d'affichage de la ligne de prix
     if (texteTrie === "Sacha Allardin dit le génie charismatique divin"){
         prix += 1000
     }
@@ -42,7 +57,7 @@ const affichePrixTot = (prix) => {
                 </div>`
 }
 
-// Récupération et création des informations
+// Récupération des informations et création des constantes et variables
 const table = document.querySelector(".grid > div");
 const reset = document.getElementById("Reset");
 const inputTexte = document.querySelector("input[type='text']");
@@ -87,7 +102,7 @@ const collator = new Intl.Collator("fr", {sensitivity : "base"});
 produits.sort((a, b) => collator.compare(a.nom, b.nom));
 let texteTrie = "";
 
-// Ajout de Tags
+// Ajout de Tags aux items de la liste
 for (let i = 0; i < produits.length; i++) {
     if (produits[i].nom.includes("Thé")){
         produits[i].tag = "Thé"
@@ -98,31 +113,9 @@ for (let i = 0; i < produits.length; i++) {
     }
 }
 
-const Creation = (produits) => {
-    let prixTot = 0;
-    const open = produits.map(produit => `<div class="ligne ${produit.tag}" id=${produit.id}>`)
-    const nom = produits.map(produit => `<div class="nom interne">${produit.nom}</div>`)
-    const prix = produits.map(produit => `<div class="prix interne">${produit.prix}</div>`)
-    const sup = produits.map(produit => `<div class="sup"><button class="button" id=sup${produit.id}>Supprimer</button></div>`)
-    table.innerHTML = `<div class="ligne">
-                    <div class="nom">Nom</div>
-                    <div class="prix">Prix</div>
-                    <div class="sup"></div>
-                </div>`
-    for (let i = 0; i < open.length; i++) {
-        prixTot += produits[i].prix
-        table.innerHTML += open[i] + nom[i] + prix[i] + sup[i] + `</div>`
-    }
-    affichePrixTot(prixTot)
-    document.querySelectorAll('.sup button').forEach(button => {
-        button.addEventListener('click', () => Supprimer(button.id));
-    });
-}
-
 Creation(produits);
 
-// Fonction Checkbox
-for (let i = 0; i < Checkboxs.length; i++) {
+for (let i = 0; i < Checkboxs.length; i++) { // Fonction qui vérifie l'état des checkbox, appel Trie()
     Checkboxs[i].checkbox.addEventListener("click", () => {
         let tags = [];
         for (let loop = 0; loop < Checkboxs.length; loop++) {
@@ -134,8 +127,7 @@ for (let i = 0; i < Checkboxs.length; i++) {
     })
 }
 
-// Fonction de recherche
-inputTexte.addEventListener("input", (e) => {
+inputTexte.addEventListener("input", (e) => { // Fonction de recherche textuel, appel Trie()
     let tagsActifs = [];
     Checkboxs.forEach(tag => {
         if (tag.checkbox.checked) {
@@ -146,12 +138,11 @@ inputTexte.addEventListener("input", (e) => {
     Trie(tagsActifs,produits)
 })
 
-form.addEventListener("submit", (e) => {
-    // Supprime la fonctionnalité native de l'élément ciblé
+form.addEventListener("submit", (e) => { // Supprime la fonctionnalité native du form
     e.preventDefault();
 })
 
-reset.addEventListener("click", () => {
+reset.addEventListener("click", () => { // Fonction de réinitialisation complète, appel Creation()
     produits = produitsSave
     inputTexte.value = ""
     texteTrie = ""
