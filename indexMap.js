@@ -126,7 +126,7 @@ for (let i = 0; i < Checkboxs.length; i++) { // Fonction qui vérifie l'état de
     })
 }
 
-inputTexte.addEventListener("input", (e) => { // Fonction de recherche textuel, appel Trie()
+inputTexte.addEventListener("keyup", (e) => { // Fonction de recherche textuel, appel Trie()
     let tagsActifs = [];
     Checkboxs.forEach(tag => {
         if (tag.checkbox.checked) {
