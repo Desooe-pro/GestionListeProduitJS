@@ -4,7 +4,7 @@ const Creation = (produits) => { //Fonction de création du tableau, appel affic
         `<div class="ligne ${produit.tag}" id=${produit.id}>
             <div class="nom interne">${produit.nom}</div>
             <div class="prix interne">${produit.prix}</div>
-            <div class="sup"><button class="button" id=sup${produit.id} onclick=Supprimer(id)>Supprimer</button>
+            <div class="sup"><button class="button" onclick=Supprimer(${produit.id})>Supprimer</button>
         </div>`)
     table.innerHTML = `<div class="ligne">
                     <div class="nom">Nom</div>
@@ -34,8 +34,7 @@ const Trie = (Tags,produits) => { // Fonction de Trie par catégorie, appel Crea
 }
 
 const Supprimer = (id) => { // Fonction de suppression des items de la liste, appel Trie()
-    const produitId = parseInt(id.replace("sup", ""));
-    produits = produits.filter(produit => produit.id !== produitId)
+    produits = produits.filter(produit => produit.id !== id)
     let tagsActifs = [];
     Checkboxs.forEach(tag => {
         if (tag.checkbox.checked) {
